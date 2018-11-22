@@ -6,7 +6,7 @@ months = {'01':'January','02':'February', '03':'March','04':'April',
 			'05':'May','06':'June','07':'July','08':'August','09':'September',
 			'10':'October','11':'November','12':'December'}
 
-years = list(range(2018,2019))
+years = list(range(2011,2019))
 
 
 for year in years:
@@ -21,9 +21,9 @@ for year in years:
 			print("For " + str(months[month]) + "/" + str(year))
 			for day in data['history']['days']:
 				weather = []
-				weather.append(str(day['summary']['date']['day']))
-				weather.append(str(day['summary']['date']['month']))
-				weather.append(str(day['summary']['date']['year']))
+				weather.append(str(day['summary']['date']['year'])  
+								+ '-' + str(day['summary']['date']['month']).zfill(2)
+								+ '-' + str(day['summary']['date']['day']).zfill(2))
 				weather.append(str(day['summary']['min_temperature']))
 				weather.append(str(day['summary']['max_temperature']))
 				weather.append(str(day['summary']['temperature']))
@@ -54,4 +54,3 @@ for year in years:
 		except:
 			print("error")
 			pass
-weather_data.close()
