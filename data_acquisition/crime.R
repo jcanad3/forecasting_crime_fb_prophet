@@ -6,11 +6,6 @@ library(tidyverse)
 source(here('tokensocrata.R'))
 library(ggmap)
 
-weather_data <- read.csv("weather_data.csv")
-weather_data <- as_tibble(weather_data)
-weather_data$year.month.day <- as.Date(weather_data$year.month.day)
-colnames(weather_data)[1] <- "year_month_day"
-
 # police incidents endpoint
 crimeIncidents <- 'https://data.brla.gov/resource/5rji-ddnu.csv?'
 query <- "$where=offense_date between '2011-01-01' and '2018-11-21'"
@@ -31,10 +26,6 @@ ggplot() +
   geom_line(data=num_offenses, aes(x=offense_date, y=num_crimes)) +
   ylab("Number of Crimes per Day") +
   xlab("Offense Date")
-
-# create file with all offenses
-num_offenses <- inner_join(weather_data, num_offenses, by=c("year_month_day"="offense_date"))
-write.csv(num_offenses, file="num_all_offenses.csv", row.names=FALSE, quote=FALSE)
 
 # different number of offenses for each crime category
 num_offenses_by_category <- crimeIncidents %>% group_by(offense_date,crime) %>% summarise(num_crimes = n())
