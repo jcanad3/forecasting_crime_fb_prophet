@@ -21,20 +21,9 @@ crimeIncidents <- crimeIncidents %>%
 #all ofenses by day
 num_offenses <- crimeIncidents %>% group_by(offense_date) %>% summarise(num_crimes = n())
 num_offenses$offense_date <- as.Date(num_offenses$offense_date)
+write.csv(num_offenses, row.names=FALSE,quote=FALSE) 
 
 ggplot() +
   geom_line(data=num_offenses, aes(x=offense_date, y=num_crimes)) +
   ylab("Number of Crimes per Day") +
   xlab("Offense Date")
-
-# different number of offenses for each crime category
-num_offenses_by_category <- crimeIncidents %>% group_by(offense_date,crime) %>% summarise(num_crimes = n())
-num_offenses_by_category$offense_date <- as.Date(num_offenses_by_category$offense_date)
-
-categories <- unique(crimeIncidents$crime)
-
-for (cat in categories) {
-  data_per_cat <- num_offenses_by_category %>% filter(crime == cat)
-  per_crime_cat_weather <- inner_join(weather_data, data_per_cat, by=c("year_month_day"="offense_date"))
-  write.csv(per_crime_cat_weather %>% select(-crime), paste("data_by_category/",cat,".csv",sep=""), row.names= FALSE, quote=FALSE)
-}
