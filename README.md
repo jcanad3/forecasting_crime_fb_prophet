@@ -1,4 +1,4 @@
-# csc_4700_final
+# Forecasting Crime with FB Prophet
 
 Data/ contains csv files with number of offenses.
 The zip file contains number of offenses grouped by each category, e.g. Theft, Assault, etc.
